@@ -22,7 +22,7 @@ public class TransactionResponseDto implements Serializable{
 		this.message = code.getCodeMessage();
 		this.refNumber = ref;
 	}
-public TransactionResponseDto(CancelTransactionCode code, String ref) {
+	public TransactionResponseDto(CancelTransactionCode code, String ref) {
 		
 		this.code = code.getCodeNumber();
 		this.message = code.getCodeMessage();

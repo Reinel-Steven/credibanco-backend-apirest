@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 public class TransactionRequestDto implements Serializable{
 
 	private static final long serialVersionUID = -1994854621582929712L;
-
+	@NotEmpty
 	@Size(min = 16, max = 19, message = "la cantidad de digitos debe estar entre 16 y 19")
 	private String pan;
 	@NotEmpty

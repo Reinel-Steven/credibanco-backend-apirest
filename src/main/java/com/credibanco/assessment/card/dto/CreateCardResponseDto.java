@@ -11,7 +11,7 @@ public class CreateCardResponseDto implements Serializable{
 	private static final long serialVersionUID = -1537431916780288708L;
 	
 	private int valiteNumber;
-	private String maskPan; // visibles los primeros 6 dígitos y los ultimos 4 (123456****3456),
+	private String maskPan; 
 	private String code;
 	private String message;
 	
@@ -36,7 +36,7 @@ public class CreateCardResponseDto implements Serializable{
 	}
 	public void setMaskPan(String maskPan) {
 		String init = maskPan.substring(0,6);
-		String fin =  maskPan.substring(maskPan.length()-5,maskPan.length());
+		String fin =  maskPan.substring(maskPan.length()-4,maskPan.length());
 		this.maskPan = init + "****" + fin;
 	}
 

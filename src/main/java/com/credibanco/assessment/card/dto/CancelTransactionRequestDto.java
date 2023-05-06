@@ -1,9 +1,23 @@
 package com.credibanco.assessment.card.dto;
 
-public class CancelTransactionRequestDto {
+import java.io.Serializable;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
+public class CancelTransactionRequestDto implements Serializable{
+
+	
+	private static final long serialVersionUID = -2797198908713348416L;
+
+	@NotEmpty
+	@Size(min = 16, max = 19, message = "la cantidad de digitos debe estar entre 16 y 19")
 	private String pan;
+	
+	@NotEmpty
+	@Size(min = 6, max = 6, message = "la cantidad de digitos debe ser 6")
 	private String ref;
+	
 	private String totalPay;
 	/************* Constructor***************************************** */
 	public CancelTransactionRequestDto() {

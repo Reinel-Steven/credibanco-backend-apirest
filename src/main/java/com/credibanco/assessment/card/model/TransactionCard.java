@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.validation.annotation.Validated;
 
 import com.credibanco.assessment.card.dto.TransactionRequestDto;
-import com.credibanco.assessment.card.util.ValidateNumeric;
+import com.credibanco.assessment.card.util.ValidateBody;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -19,8 +19,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Validated
@@ -32,13 +30,12 @@ public class TransactionCard implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@NotEmpty
-	@Column(unique=true)
-	@Size(min = 6, max = 6, message = "la cantidad de digitos debe ser 6")
+
+	@Column(unique=true, nullable = false)
 	private String ref;
 
 	private Double totalPay;
-	@NotEmpty
+
 	private String adressPay;
 	
 	private Boolean approved;
@@ -58,7 +55,7 @@ public class TransactionCard implements Serializable{
 	
 	
 	public TransactionCard(TransactionRequestDto transaction, Card card) {
-		if(ValidateNumeric.isLong(transaction.getRef())){
+		if(ValidateBody.isNumeric(transaction.getRef())){
 			this.ref = transaction.getRef();
 		}		
 		this.totalPay = transaction.getTotalPay();

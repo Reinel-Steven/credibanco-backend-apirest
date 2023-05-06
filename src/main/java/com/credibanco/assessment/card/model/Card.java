@@ -15,9 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-
 
 
 @Entity
@@ -29,29 +26,19 @@ public class Card implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	@NotEmpty(message = "El numero de tarjeta es necesario")
-	@Column(unique=true, nullable=false)
-	@Size(min = 16, max = 19, message = "la cantidad de digitos debe estar entre 16 y 19")
+		
+	@Column(unique=true, nullable=false)	
 	private String pan;
-	
-	@NotEmpty(message = "El titular de la tarjeta es necesario")
+		
 	private String cardholder;
-	
-	@NotEmpty(message = "La cedula es necesaria")
+		
 	@Column(unique=true)
-	@Size(min = 10, max = 15, message = "la cantidad de digitos debe estar entre 10 y 15")
 	private String cedula;
-	
-	@NotEmpty(message = "seleccione Debito o Credito")
+		
 	private String type;
 	
-	@NotEmpty(message = "El numero de telefono es necesario")
-	@Column(unique=true)
-	@Size(min = 10, max = 10, message = "la cantidad de digitos debe ser 10")
 	private String phoneNumber;
 	
-	@NotEmpty
 	private Boolean enable;
 
 	private int validateNumber = 0;

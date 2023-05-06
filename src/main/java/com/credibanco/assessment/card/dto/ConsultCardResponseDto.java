@@ -29,7 +29,7 @@ public class ConsultCardResponseDto implements Serializable{
 	}
 	public void setPan(String pan) {
 		String init = pan.substring(0,6);
-		String fin =  pan.substring(pan.length()-5,pan.length());
+		String fin =  pan.substring(pan.length()-4,pan.length());
 		this.pan = init + "****" + fin;
 	}
 	public String getCardholder() {
