@@ -2,6 +2,7 @@ package com.credibanco.assessment.card.services;
 
 import java.util.List;
 
+import com.credibanco.assessment.card.model.Card;
 import com.credibanco.assessment.card.model.TransactionCard;
 
 public interface ITransactionService {
@@ -14,5 +15,5 @@ public interface ITransactionService {
 	
 	public TransactionCard save(TransactionCard transaction);
 	
-	public void delete(Long id);
+	public void  delete(Card card);
 }

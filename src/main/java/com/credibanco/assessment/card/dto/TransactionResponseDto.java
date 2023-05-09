@@ -16,6 +16,7 @@ public class TransactionResponseDto implements Serializable{
 	private String message;
 	
 	/************* Constructor***************************************** */
+	
 	public TransactionResponseDto(CodeTransaction code, String ref) {
 		
 		this.code = code.getCodeNumber();

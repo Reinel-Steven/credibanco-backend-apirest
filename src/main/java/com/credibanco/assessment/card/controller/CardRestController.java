@@ -1,5 +1,6 @@
 package com.credibanco.assessment.card.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +30,12 @@ import com.credibanco.assessment.card.dto.CreateCardResponseDto;
 import com.credibanco.assessment.card.dto.EnrollCardResponseDto;
 import com.credibanco.assessment.card.model.Card;
 import com.credibanco.assessment.card.services.ICardService;
+import com.credibanco.assessment.card.services.ITransactionService;
 import com.credibanco.assessment.card.util.ValidateBody;
 
 import jakarta.validation.Valid;
 
-
+@CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/api/card")
 public class CardRestController {
@@ -45,7 +48,12 @@ public class CardRestController {
 		
 		List<Card> cards = 	cardService.findAll();	
 		if(cards!=null && cards.size()>0) {
-			return ResponseEntity.ok(cards);	
+			List<ConsultCardResponseDto> response = new ArrayList<ConsultCardResponseDto>();
+			for(Card card: cards) {
+				ConsultCardResponseDto newCardDto = new ConsultCardResponseDto(card);
+				response.add(newCardDto);
+			}; 
+			return ResponseEntity.ok(response);	
 		}else {
 			return ResponseEntity.notFound().build();
 		}		
@@ -74,10 +82,10 @@ public class CardRestController {
 		}
 	}
 	
-	@PutMapping("/enroll-card")
-	public ResponseEntity<?> enrollCard(@Valid @RequestParam String pan, @RequestParam int validateNumber,  BindingResult result){
+	@PutMapping("/enroll-card/{pan}/{validate}")
+	public ResponseEntity<?> enrollCard(@PathVariable("pan") String pan, @PathVariable("validate") int validateNumber){
 		
-		if(ValidateBody.errors(pan, result).isEmpty()) {
+		if(ValidateBody.isNumeric(pan)) {
 			EnrollCardResponseDto response = null;
 			Card card = cardService.findByPan(pan);
 			try {			
@@ -98,7 +106,7 @@ public class CardRestController {
 				return new ResponseEntity<String>(e.getMostSpecificCause().getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}else {
-			List<String> response= ValidateBody.errors(pan, result);
+			List<String> response= ValidateBody.errors(pan);
 			return new ResponseEntity<List<String>>(response, HttpStatus.BAD_REQUEST);
 		}				
 	}
@@ -118,13 +126,14 @@ public class CardRestController {
 	}
 	
 	@DeleteMapping("/delete")	
-	public ResponseEntity<?> delete(@RequestParam String pan, @RequestParam String validateNumber) {
+	public ResponseEntity<?> delete(@RequestParam String pan, @RequestParam int validateNumber) {
 		
 		try {
+			
 			Card card = cardService.findByPan(pan);
-			if(card != null) {
+			if(card != null && card.getValidateNumber() == validateNumber) {
 				cardService.delete(card.getId());
-				return ResponseEntity.ok("");
+				return ResponseEntity.ok(DeleteStatus.APPROVED);
 			}else {				
 				return new ResponseEntity<DeleteStatus>(DeleteStatus.REJECTED, HttpStatus.NOT_FOUND);
 			}

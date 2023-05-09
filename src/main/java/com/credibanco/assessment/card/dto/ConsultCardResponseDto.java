@@ -25,7 +25,9 @@ public class ConsultCardResponseDto implements Serializable{
 		
 	/* *************** Getter and Setter ******************* */
 	public String getPan() {
-		return pan;
+		String init = pan.substring(0,6);
+		String fin =  pan.substring(pan.length()-4,pan.length());
+		return pan = init + "****" + fin;
 	}
 	public void setPan(String pan) {
 		String init = pan.substring(0,6);

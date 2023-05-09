@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.credibanco.assessment.card.model.Card;
 import com.credibanco.assessment.card.model.TransactionCard;
 import com.credibanco.assessment.card.models.repository.TransactionRepository;
 import com.credibanco.assessment.card.services.ITransactionService;
@@ -31,8 +32,8 @@ public class TransactionServiceImpl implements ITransactionService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		repo.deleteById(id);
+	public void delete(Card card) {
+		repo.deleteByCard(card);
 	}
 
 	@Override

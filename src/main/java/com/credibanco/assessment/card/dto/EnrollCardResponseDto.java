@@ -12,13 +12,13 @@ public class EnrollCardResponseDto implements Serializable{
 	
 	private String code;
 	private String pan;
-	private String menssage;
+	private String message;
 	
 	
 	
 	public EnrollCardResponseDto(Card card, EnrollTransaction enroll) {
 		this.code = enroll.getCodeNumber();
-		this.menssage = enroll.getCodeMessage();
+		this.message = enroll.getCodeMessage();
 		setPan(card.getPan());
 		
 	}
@@ -30,7 +30,10 @@ public class EnrollCardResponseDto implements Serializable{
 		this.code = code;
 	}
 	public String getPan() {
-		return pan;
+		String init = pan.substring(0,6);
+		String fin =  pan.substring(pan.length()-4,pan.length());
+		return  init + "****" + fin;
+		
 	}
 	public void setPan(String pan) {
 		String init = pan.substring(0,6);
@@ -38,10 +41,10 @@ public class EnrollCardResponseDto implements Serializable{
 		this.pan = init + "****" + fin;
 	}
 	public String getMenssage() {
-		return menssage;
+		return message;
 	}
 	public void setMenssage(String menssage) {
-		this.menssage = menssage;
+		this.message = menssage;
 	}
 	
 }

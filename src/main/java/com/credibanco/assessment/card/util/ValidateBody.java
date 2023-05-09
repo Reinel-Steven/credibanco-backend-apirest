@@ -19,22 +19,25 @@ public class ValidateBody {
 	private static Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
 	
-	public static boolean isNumeric(String strNum) {
-	    if (strNum == null) {
-	        return false; 
-	    }
-	    return pattern.matcher(strNum).matches();
+	public static boolean isNumeric(String str) {
+		 boolean isNumeric = true;
+	        for (int i = 0; i < str.length(); i++) {
+	            if (!Character.isDigit(str.charAt(i))) {
+	                isNumeric = false;
+	            }
+	        }
+	    return isNumeric;
 	}
 	
 	public static List<String> errors (CreateCardRequestDto body){
 		List<String> errors = new ArrayList<String>();
-		if(isNumeric(body.getPan())) {
+		if(!isNumeric(body.getPan())) {
 			errors.add("El campo PAN debe ser numerico");
 		}
-		if(isNumeric(body.getCedula())) {
+		if(!isNumeric(body.getCedula())) {
 			errors.add("El campo Cedula debe ser numerico");
 		}
-		if(isNumeric(body.getPhoneNumber())) {
+		if(!isNumeric(body.getPhoneNumber())) {
 			errors.add("El campo Telefono debe ser numerico");
 		}
 		return errors;
@@ -59,13 +62,13 @@ public class ValidateBody {
 				errors.add("el campo '" + err.getField().toString() + "' " + err.getDefaultMessage());
 			}			
 		}
-		if(isNumeric(body.getPan())) {
+		if(!isNumeric(body.getPan())) {
 			errors.add("El campo PAN debe ser numerico");
 		}
-		if(isNumeric(body.getCedula())) {
+		if(!isNumeric(body.getCedula())) {
 			errors.add("El campo Cedula debe ser numerico");
 		}
-		if(isNumeric(body.getPhoneNumber())) {
+		if(!isNumeric(body.getPhoneNumber())) {
 			errors.add("El campo Telefono debe ser numerico");
 		}
 		return errors;
@@ -79,7 +82,14 @@ public class ValidateBody {
 				errors.add("el campo '" + err.getField().toString() + "' " + err.getDefaultMessage());
 			}			
 		}
-		if(isNumeric(number)) {
+		if(!isNumeric(number)) {
+			errors.add("El campo debe ser numerico");
+		}
+		return errors;
+	}
+	public static List<String> errors (String number){
+		List<String> errors = new ArrayList<String>();		
+		if(!isNumeric(number)) {
 			errors.add("El campo debe ser numerico");
 		}
 		return errors;
@@ -94,10 +104,10 @@ public class ValidateBody {
 				errors.add("el campo '" + err.getField().toString() + "' " + err.getDefaultMessage());
 			}			
 		}
-		if(isNumeric(body.getPan())) {
+		if(!isNumeric(body.getPan())) {
 			errors.add("El campo PAN debe ser numerico");
 		}
-		if(isNumeric(body.getRef())) {
+		if(!isNumeric(body.getRef())) {
 			errors.add("El campo Referencia debe ser numerico");
 		}
 		
@@ -112,10 +122,10 @@ public class ValidateBody {
 				errors.add("el campo '" + err.getField().toString() + "' " + err.getDefaultMessage());
 			}			
 		}
-		if(isNumeric(body.getPan())) {
+		if(!isNumeric(body.getPan())) {
 			errors.add("El campo PAN debe ser numerico");
 		}
-		if(isNumeric(body.getRef())) {
+		if(!isNumeric(body.getRef())) {
 			errors.add("El campo Referencia debe ser numerico");
 		}
 		

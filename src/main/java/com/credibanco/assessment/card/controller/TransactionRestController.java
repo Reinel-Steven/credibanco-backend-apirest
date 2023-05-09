@@ -1,5 +1,6 @@
 package com.credibanco.assessment.card.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.credibanco.assessment.card.constants.CancelTransactionCode;
 import com.credibanco.assessment.card.constants.CodeTransaction;
 import com.credibanco.assessment.card.dto.CancelTransactionRequestDto;
+import com.credibanco.assessment.card.dto.TransactionDto;
 import com.credibanco.assessment.card.dto.TransactionRequestDto;
 import com.credibanco.assessment.card.dto.TransactionResponseDto;
 import com.credibanco.assessment.card.model.Card;
@@ -28,6 +31,7 @@ import com.credibanco.assessment.card.util.ValidateBody;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins="http://localhost:4200")
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionRestController {
@@ -41,9 +45,14 @@ public class TransactionRestController {
 	public ResponseEntity<?> listTransaction(){
 		
 		try {
-			List<TransactionCard> transactions = transactionService.findAll();	
-			if(transactions!=null && transactions.size()>0) {
-				return ResponseEntity.ok(transactions);	
+			List<TransactionCard> transactions = transactionService.findAll();
+			List<TransactionDto> listResponse = new ArrayList<TransactionDto>();
+			if(transactions!=null && transactions.size()>0) {					
+				for(TransactionCard t: transactions) {
+					TransactionDto transaction = new TransactionDto(t);
+					listResponse.add(transaction);
+				}				
+				return ResponseEntity.ok(listResponse);	
 			}else {
 				return ResponseEntity.notFound().build();
 			}	
